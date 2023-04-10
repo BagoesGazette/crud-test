@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendQueueEmail;
+use App\Mail\MakeEmail;
+use App\Mail\MyTestMail;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class CategoryController extends Controller
 {
@@ -48,6 +52,13 @@ class CategoryController extends Controller
                 'name'          => $validated['name'],
                 'is_publish'    => $validated['is_publish'],
             ]);
+
+            $user = [
+                'name'      => $validated['name'],
+                'action'    => 'ditambahkan'
+            ];
+
+            Mail::to('test@example.com')->send(new MakeEmail($user));
 
             $notification = array(
                 'success'   => 'Berhasil tambah category '.$validated['name']
@@ -126,7 +137,14 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         try {
-            Category::find($id)->delete();
+            $detail = Category::find($id);
+            $user = [
+                'name'      => $detail->name,
+                'action'    => 'dihapus'
+            ];
+
+            Mail::to('test@example.com')->send(new MakeEmail($user));
+            $detail->delete();
 
             return response()->json(['status' => 'success']);
         } catch (\Throwable $e) {

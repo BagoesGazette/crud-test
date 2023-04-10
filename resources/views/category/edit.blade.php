@@ -24,7 +24,6 @@
                             <br>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input @error('is_publish') is-invalid @enderror" 
-                                @if(old('is_publish')) checked @endif
                                 {{ $detail->is_publish == 1 ? ' checked="checked"' : '' }}
                                 type="radio" name="is_publish" id="inlineRadio1" value="1">
                                 <label class="form-check-label" for="inlineRadio1">Publish</label>
@@ -36,7 +35,6 @@
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input @error('is_publish') is-invalid @enderror" 
-                                @if(!old('is_publish')) checked @endif
                                 {{ $detail->is_publish == 0 ? ' checked="checked"' : '' }}
                                 type="radio" name="is_publish" id="inlineRadio2" value="0">
                                 <label class="form-check-label" for="inlineRadio2">Not Publish</label>
